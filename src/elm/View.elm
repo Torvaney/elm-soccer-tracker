@@ -76,11 +76,14 @@ introText = """
 
 
 appendixText = """
-If you like this, you'll probably also be interested in [Neil Charles]()'s
-[chalkboard app](http://apps.hilltop-analytics.com/chalkboard/)
+If you like this, you'll probably also be interested in [Neil Charles](
+https://twitter.com/neilcharles_uk)'s [chalkboard app](
+http://apps.hilltop-analytics.com/chalkboard/).
 
-This project was inspired by [John Burn-Murdoch's pitch tracker](
-http://johnburnmurdoch.github.io/football-pitch-tracker/) written in d3.
+This project was inspired by [John Burn-Murdoch](
+https://twitter.com/jburnmurdoch)'s [pitch tracker](
+http://johnburnmurdoch.github.io/football-pitch-tracker/).
 
-Find the source code on [Github](http://whoops.com).
+This app was written in Elm. Find the source code on [Github](
+https://github.com/Torvaney/elm-soccer-tracker).
 """
