@@ -1,0 +1,9 @@
+# My guff
+build.sh
+src/static/js/main.js
+
+# Elm guff
+elm-stuff
+
+# OS X guff
+.DS_Store

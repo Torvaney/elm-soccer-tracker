@@ -1,0 +1,18 @@
+
+/*
+Pitch
+*/
+.pitch {
+  fill: #d1d1d1;
+  stroke: black;
+  stroke-width: 1;
+}
+
+/* Buttons */
+.clear-events {
+  float: right;
+}
+
+.download-events {
+  float: left;
+}

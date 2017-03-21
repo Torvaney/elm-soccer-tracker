@@ -1,0 +1,39 @@
+<html>
+
+  <head>
+    <title>Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="src/static/style/main.css">
+  </head>
+
+  <body>
+    <div id="elmApp" class="container"></div>
+  </body>
+
+  <script src="src/static/js/main.js"></script>
+  <script>
+
+  // var app = Elm.Main.fullscreen();
+  var node = document.getElementById("elmApp");
+  var app = Elm.Main.embed(node);
+
+
+  function getCanvasXY(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+       x: event.clientX - rect.left,
+       y: event.clientY - rect.top
+    };
+  }
+
+  app.ports.addPitchListener.subscribe(function(placeholder) {
+    var pitch = document.getElementById("pitchSvg");
+    pitch.addEventListener('mousedown', function(evt) {
+      var xy = getCanvasXY(pitch, evt);
+      app.ports.pitchXY.send(xy)
+    }, false);
+  });
+
+  </script>
+
+</html>
