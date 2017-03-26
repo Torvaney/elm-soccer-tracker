@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Soccer event tracking",
-    "repository": "https://github.com/Torvaney/elm-soccer-tracker",
+    "repository": "https://github.com/Torvaney/elm-soccer-tracker.git",
     "license": "BSD3",
     "source-directories": [
         "src/elm"
