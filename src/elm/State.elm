@@ -28,14 +28,24 @@ update msg model =
       Clear ->
         ( { model | events = [ ] }, Cmd.none )
       Undo ->
-        ( { model | events = undoList model.events }, Cmd.none )
+        ( undoEvent model, Cmd.none )
       MouseMsg position ->
-        ( { model | events = model.events ++ [ position ] }, Cmd.none )
+        ( addPosition model position, Cmd.none )
 
 
 undoList : List a -> List a
 undoList lst =
   List.take ((List.length lst) - 1) lst
+
+
+undoEvent : Model -> Model
+undoEvent =
+  { model | events = undoList model.events }
+
+
+addPosition : Model -> Position -> Model
+addPosition =
+  { model | events = model.events ++ [ position ] }
 
 
 -- SUBSCRIPTIONS
