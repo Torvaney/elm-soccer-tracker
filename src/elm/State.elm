@@ -4,10 +4,7 @@ module State exposing (init, update, subscriptions)
 -- the supscriptions and the update function
 
 
-{--
-TODO:
- * Convert coordinates to 100x100
---}
+import Keyboard.Extra
 
 import Types exposing (..)
 import Ports exposing ( addPitchListener, pitchXY )
@@ -15,8 +12,13 @@ import Ports exposing ( addPitchListener, pitchXY )
 
 init : ( Model, Cmd Msg )
 init =
-    ( [], addPitchListener "")
+    ( initModel, addPitchListener "")
 
+
+initModel =
+  { keyboardState = Keyboard.Extra.initialState
+  , events = [ ]
+  }
 
 -- UPDATE
 
@@ -24,11 +26,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
       Clear ->
-        ( [ ], Cmd.none )
+        ( { model | events = [ ] }, Cmd.none )
       Undo ->
-        ( undoList model, Cmd.none )
+        ( { model | events = undoList model.events }, Cmd.none )
       MouseMsg position ->
-        ( model ++ [ position ], Cmd.none )
+        ( { model | events = model.events ++ [ position ] }, Cmd.none )
 
 
 undoList : List a -> List a

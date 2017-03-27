@@ -19,12 +19,12 @@ view model =
     , div [ class "col-md-10 text-center" ]
           [ h1 [ class "text-center" ] [ text headerText ]
           , Markdown.toHtml [ class "text-left" ] introText
-          , pitchSvg ( pitch ++ (List.map drawCircle model) )
+          , pitchSvg ( pitch ++ (List.map drawCircle model.events) )
           , div [ class "row" ]
             [ div [ class "col-md-12" ]
                 [ div [ class "btn-group download-events"]
                       [ a [ class "btn btn-primary"
-                        , href (toCsv model)
+                        , href (toCsv model.events)
                         , downloadAs "events.csv"
                         ] [ text "Download" ]
                       ]
@@ -54,9 +54,9 @@ pitchSvg =
       ]
 
 
-drawCircle model =
-  circle [ cx (toString model.x)
-         , cy (toString model.y)
+drawCircle position =
+  circle [ cx (toString position.x)
+         , cy (toString position.y)
          , r "5"
          , fill "#fffd69"
          , fillOpacity "0.9"

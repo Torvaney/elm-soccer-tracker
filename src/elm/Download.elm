@@ -23,9 +23,9 @@ rowSep =
   "%0A"
 
 -- Should make this generic
-toCsv : Model -> String
-toCsv model =
-  model |>
+toCsv : List Position -> String
+toCsv events =
+  events |>
     List.map convertCoords |>
     createRows |>
     rowsToCsv |>
@@ -39,10 +39,10 @@ toRow position =
     (toString position.y)
 
 
-createRows : Model -> (List String)
-createRows model =
+createRows : List Position -> (List String)
+createRows events =
   [ csvHeader ] ++
-    (List.map toRow model)
+    (List.map toRow events)
 
 
 joinRows : String -> String -> String

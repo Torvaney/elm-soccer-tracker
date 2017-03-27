@@ -1,5 +1,7 @@
 module Types exposing (..)
 
+import Keyboard.Extra
+
 
 type Msg
     = Clear
@@ -14,7 +16,9 @@ type alias Position =
 
 
 type alias Model =
-    List Position
+    { events : List Position
+    , keyboardState : Keyboard.Extra.State
+    }
 
 
 type PitchEnd
