@@ -7,6 +7,7 @@ type Msg
     = Clear
     | Undo
     | MouseMsg Position
+    | KeyboardMsg Keyboard.Extra.Msg
 
 
 -- Model types

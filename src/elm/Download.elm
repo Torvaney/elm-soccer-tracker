@@ -11,7 +11,7 @@ csvPrefix =
 
 csvHeader : String
 csvHeader =
-  "x, y"
+  "x, y, mod1, mod2, mod3"
 
 
 sep : String
@@ -33,10 +33,16 @@ toCsv events =
 
 
 toRow : Event -> String
-toRow event =
+toRow event =  -- FIXME: find an idiomatic way to do this with FP
   (toString event.x) ++
     sep ++
-    (toString event.y)
+    (toString event.y) ++
+    sep ++
+    (toString event.mod1) ++
+    sep ++
+    (toString event.mod2) ++
+    sep ++
+    (toString event.mod3)
 
 
 createRows : List Event -> (List String)

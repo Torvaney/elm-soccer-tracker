@@ -4,7 +4,6 @@ import Html exposing (Html)
 import Html.Attributes exposing (id, height, width)
 import Svg exposing (svg, circle, rect, line)
 import Svg.Attributes exposing (class, x, y, x1, y1, x2, y2, cx, cy, r,fill, fillOpacity, stroke)
-import Debug
 
 import Types exposing (..)
 

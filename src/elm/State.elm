@@ -5,6 +5,7 @@ module State exposing (init, update, subscriptions)
 
 
 import Keyboard.Extra
+import Debug
 
 import Types exposing (..)
 import Ports exposing ( addPitchListener, pitchXY )
@@ -31,6 +32,8 @@ update msg model =
         ( undoEvent model, Cmd.none )
       MouseMsg position ->
         ( addEvent model position, Cmd.none )
+      KeyboardMsg keyMsg ->
+        ( setKeyState model keyMsg, Cmd.none )
 
 
 undoList : List a -> List a
@@ -50,11 +53,20 @@ addEvent model position =
   }
 
 
+setKeyState model keyMsg =
+  { model
+  | keyboardState =
+      Keyboard.Extra.update
+      keyMsg
+      model.keyboardState
+  }
+
+
 createEvent : Model -> Position -> Event
 createEvent model position =
   { x = position.x
   , y = position.y
-  , mod1 = isPressed model Mod1
+  , mod1 = Debug.log "mod1" <| isPressed model Mod1
   , mod2 = isPressed model Mod2
   , mod3 = isPressed model Mod3
   }
@@ -80,4 +92,5 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ pitchXY MouseMsg
+        , Sub.map KeyboardMsg Keyboard.Extra.subscriptions
         ]
