@@ -8,7 +8,8 @@ import Debug
 
 import Types exposing (..)
 
-{-- Abandon hope all ye who have to read this... --}
+{-- Abandon hope all ye who read this...
+--}
 
 pitchClass =
   "pitch"

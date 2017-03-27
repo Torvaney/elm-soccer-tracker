@@ -9,16 +9,37 @@ type Msg
     | MouseMsg Position
 
 
+-- Model types
+
+
 type alias Position =
   { x : Float
   , y : Float
   }
 
 
+type Modifier
+  = Mod1
+  | Mod2
+  | Mod3
+
+
+type alias Event =
+  { x : Float
+  , y : Float
+  , mod1 : Bool
+  , mod2 : Bool
+  , mod3 : Bool
+  }
+
+
 type alias Model =
-    { events : List Position
+    { events : List Event
     , keyboardState : Keyboard.Extra.State
     }
+
+
+-- Pitch types
 
 
 type PitchEnd

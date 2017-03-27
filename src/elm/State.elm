@@ -30,7 +30,7 @@ update msg model =
       Undo ->
         ( undoEvent model, Cmd.none )
       MouseMsg position ->
-        ( addPosition model position, Cmd.none )
+        ( addEvent model position, Cmd.none )
 
 
 undoList : List a -> List a
@@ -39,13 +39,39 @@ undoList lst =
 
 
 undoEvent : Model -> Model
-undoEvent =
+undoEvent model =
   { model | events = undoList model.events }
 
 
-addPosition : Model -> Position -> Model
-addPosition =
-  { model | events = model.events ++ [ position ] }
+addEvent : Model -> Position -> Model
+addEvent model position =
+  { model
+  | events = model.events ++ [ createEvent model position ]
+  }
+
+
+createEvent : Model -> Position -> Event
+createEvent model position =
+  { x = position.x
+  , y = position.y
+  , mod1 = isPressed model Mod1
+  , mod2 = isPressed model Mod2
+  , mod3 = isPressed model Mod3
+  }
+
+
+isPressed : Model -> Modifier -> Bool
+isPressed model modifier =
+  Keyboard.Extra.isPressed
+    (modifierKey modifier)
+    model.keyboardState
+
+
+modifierKey modifier =
+  case modifier of
+    Mod1 -> Keyboard.Extra.Number1
+    Mod2 -> Keyboard.Extra.Number2
+    Mod3 -> Keyboard.Extra.Number3
 
 
 -- SUBSCRIPTIONS

@@ -1,6 +1,6 @@
 module Download exposing (toCsv)
 
-import Types exposing (Position, Model)
+import Types exposing (Event, Model)
 import Pitch exposing (pitchOffset, pitchWidth, pitchLength)
 
 
@@ -23,7 +23,7 @@ rowSep =
   "%0A"
 
 -- Should make this generic
-toCsv : List Position -> String
+toCsv : List Event -> String
 toCsv events =
   events |>
     List.map convertCoords |>
@@ -32,14 +32,14 @@ toCsv events =
     (++) csvPrefix
 
 
-toRow : Position -> String
-toRow position =
-  (toString position.x) ++
+toRow : Event -> String
+toRow event =
+  (toString event.x) ++
     sep ++
-    (toString position.y)
+    (toString event.y)
 
 
-createRows : List Position -> (List String)
+createRows : List Event -> (List String)
 createRows events =
   [ csvHeader ] ++
     (List.map toRow events)
@@ -55,9 +55,9 @@ rowsToCsv rows =
   List.foldr joinRows "" rows
 
 
-convertCoords : Position -> Position
-convertCoords rawPosition =
-  { rawPosition
-  | x = 100 * (rawPosition.x - pitchOffset) / pitchLength
-  , y = 100 * (rawPosition.y - pitchOffset) / pitchWidth
+convertCoords : Event -> Event
+convertCoords rawEvent =
+  { rawEvent
+  | x = 100 * (rawEvent.x - pitchOffset) / pitchLength
+  , y = 100 * (rawEvent.y - pitchOffset) / pitchWidth
   }
