@@ -52,7 +52,7 @@ centreCircle =
   [ circle [ class pitchClass
            , cy <| toString <| (scaleCoord 50 PitchY)
            , cx <| toString <| (scaleCoord 50 PitchX)
-           , r <| toString <| (scaleCoord 15 PitchY)
+           , r <| toString <| (scaleCoord 11.5 PitchY)
            , fillOpacity "0"
            ] []
   , circle [ class pitchClass
@@ -67,7 +67,7 @@ penaltyBox pitchEnd =
   [ circle [ class pitchClass
            , cy <| toString <| scaleCoordY <| 50
            , cx <| toString <| scaleCoordX <| distFromEnd 11.5 pitchEnd
-           , r <| toString <| scaleCoordY <| 10
+           , r <| toString <| scaleCoordY <| 11.5
            , fillOpacity "0"
            ] []
   , pitchRect 17 57.8 0 pitchEnd
