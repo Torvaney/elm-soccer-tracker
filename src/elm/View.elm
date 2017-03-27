@@ -54,15 +54,26 @@ pitchSvg =
       ]
 
 
-drawCircle position =
-  circle [ cx (toString position.x)
-         , cy (toString position.y)
+drawCircle event =
+  circle [ cx (toString event.x)
+         , cy (toString event.y)
          , r "5"
-         , fill "#fffd69"
+         , fill <| circleColour event
          , fillOpacity "0.9"
          , stroke "black"
          ]
     []
+
+
+circleColour event =
+  if event.mod1 then
+    "#7ceefe"
+  else if event.mod2 then
+    "#ffc369"
+  else if event.mod3 then
+    "#fb8af0"
+  else
+    "#fffd69"
 
 
 divN : Int -> Html msg
