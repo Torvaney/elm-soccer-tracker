@@ -88,7 +88,9 @@ headerText = "Soccer event logger"
 
 introText = """
 1. Register events by clicking on the football pitch.
-2. Download the events as a csv (spreadsheet).
+2. Optionally add qualifiers to your events by holding down the "1", "2", or "3"
+keys as you click.
+3. Download the events as a csv (spreadsheet).
 """
 
 
