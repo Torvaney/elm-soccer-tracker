@@ -9,7 +9,7 @@ import Markdown
 
 import Download exposing (toCsv)
 import Types exposing (..)
-import Pitch exposing (pitch)
+import Pitch exposing (pitch, pitchWidth, pitchLength, pitchOffset)
 
 
 view : Model -> Html Msg
@@ -19,9 +19,7 @@ view model =
     , div [ class "col-md-10 text-center" ]
           [ h1 [ class "text-center" ] [ text headerText ]
           , Markdown.toHtml [ class "text-left" ] introText
-          , svg
-              [width 570, height 390, id "pitchSvg"]
-              ( pitch ++ (List.map drawCircle model) )
+          , pitchSvg ( pitch ++ (List.map drawCircle model) )
           , div [ class "row" ]
             [ div [ class "col-md-12" ]
                 [ div [ class "btn-group download-events"]
@@ -46,6 +44,14 @@ view model =
           ]
     , divN 1
     ]
+
+
+pitchSvg =
+  svg
+      [ width <| (+) pitchLength <| (*) 2 <| pitchOffset
+      , height <| (+) pitchWidth <| (*) 2 <| pitchOffset
+      , id "pitchSvg"
+      ]
 
 
 drawCircle model =

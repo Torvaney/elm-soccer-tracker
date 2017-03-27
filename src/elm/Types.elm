@@ -20,3 +20,8 @@ type alias Model =
 type PitchEnd
     = PitchLeft
     | PitchRight
+
+
+type PitchDimension
+    = PitchX
+    | PitchY

@@ -4,23 +4,23 @@ import Html exposing (Html)
 import Html.Attributes exposing (id, height, width)
 import Svg exposing (svg, circle, rect, line)
 import Svg.Attributes exposing (class, x, y, x1, y1, x2, y2, cx, cy, r,fill, fillOpacity, stroke)
+import Debug
 
 import Types exposing (..)
 
-{--
-TODO:
-  * Make all numbers relative to pitch size and offset
---}
-
+{-- Abandon hope all ye who have to read this... --}
 
 pitchClass =
   "pitch"
 
-pitchLength = 560
+pitchLength =
+  560
 
-pitchWidth = 380
+pitchWidth =
+  380
 
-pitchOffset = 5
+pitchOffset =
+  10
 
 
 pitch =
@@ -36,73 +36,106 @@ pitchOutline =
   [ rect [ class pitchClass
          , height pitchWidth
          , width pitchLength
-         , y "5"
-         , x "5"
+         , y <| toString <| pitchOffset
+         , x <| toString <| pitchOffset
          ] []
   , line [ class pitchClass
-         , x1 <| toString <| (+) pitchOffset <| (pitchLength / 2)
-         , y1 <| toString <| pitchOffset
-         , x2 <| toString <| (+) pitchOffset <| (pitchLength / 2)
-         , y2 <| toString <| (pitchOffset + pitchWidth)
+         , x1 <| toString <| (scaleCoord 50 PitchX)
+         , y1 <| toString <| (scaleCoord 0 PitchY)
+         , x2 <| toString <| (scaleCoord 50 PitchX)
+         , y2 <| toString <| (scaleCoord 100 PitchY)
          ] []
   ]
 
 
 centreCircle =
   [ circle [ class pitchClass
-           , cy <| toString <| (+) pitchOffset <| (pitchWidth / 2)
-           , cx <| toString <| (+) pitchOffset <| (pitchLength / 2)
-           , r "50"  -- is this actually correct...?
+           , cy <| toString <| (scaleCoord 50 PitchY)
+           , cx <| toString <| (scaleCoord 50 PitchX)
+           , r <| toString <| (scaleCoord 15 PitchY)
            , fillOpacity "0"
            ] []
   , circle [ class pitchClass
-           , cy <| toString <| (+) pitchOffset <| (pitchWidth / 2)
-           , cx <| toString <| (+) pitchOffset <| (pitchLength / 2)
+           , cy <| toString <| (scaleCoord 50 PitchY)
+           , cx <| toString <| (scaleCoord 50 PitchX)
            , r "2"
            ] []
   ]
 
 
-distanceFromEnd offsetDist elemWidth pitchEnd =
-  case pitchEnd of
-    PitchLeft ->
-      pitchOffset + offsetDist
-    PitchRight ->
-      (pitchOffset + pitchLength) - offsetDist - elemWidth
-
-
 penaltyBox pitchEnd =
   [ circle [ class pitchClass
-           , cy "190"
-           , cx <| toString <| (distanceFromEnd 74.4 0 pitchEnd) -- "490.6"
-           , r "50"
+           , cy <| toString <| scaleCoordY <| 50
+           , cx <| toString <| scaleCoordX <| distFromEnd 11.5 pitchEnd
+           , r <| toString <| scaleCoordY <| 10
+           , fillOpacity "0"
            ] []
-  , rect [ class pitchClass
-         , height 219
-         , width 95
-         , y "85"
-         , x <| toString <| (distanceFromEnd 0 95 pitchEnd) -- "470"
-         ] []
-  , rect [ class pitchClass
-         , height 100
-         , width 32
-         , y "140"
-         , x <| toString <| (distanceFromEnd 0 32 pitchEnd) -- 533
-         ] []
+  , pitchRect 17 57.8 0 pitchEnd
+  , pitchRect 5.8 26.4 0 pitchEnd
   , circle [ class pitchClass
-           , cy "190"
-           , cx <| toString <| (distanceFromEnd 74.4 0 pitchEnd) -- "490.6"
-           , r "2"
+           , cy <| toString <| scaleCoordY <| 50
+           , cx <| toString <| scaleCoordX <| distFromEnd 11.5 pitchEnd
+           , r <| toString <| 2
+           , fillOpacity "0"
            ] []
   ]
 
 
 goal pitchEnd =
   [
-  rect [ class pitchClass
-       , height 45
-       , width 5
-       , y "167.5"
-       , x <| toString <| (distanceFromEnd (-pitchOffset) pitchOffset pitchEnd)
-       ] []
+  pitchRect 1 11.6 -1 pitchEnd
   ]
+
+
+-- Scale coordinates from 100x100 to pitchLength x pitchWidth
+scaleValue val offset pitchDim =
+  case pitchDim of
+    PitchX ->
+      (val / 100.0) |>
+        (*) pitchLength |>
+        (+) offset
+    PitchY ->
+      (val / 100.0) |>
+        (*) pitchWidth |>
+        (+) offset
+
+
+scaleCoord val pitchDim =
+  scaleValue val pitchOffset pitchDim
+
+
+scaleLength val pitchDim =
+  scaleValue val 0 pitchDim
+
+
+scaleCoordX val =
+  scaleCoord val PitchX
+
+
+scaleCoordY val =
+  scaleCoord val PitchY
+
+
+distFromEnd val pitchEnd =
+  case pitchEnd of
+    PitchLeft ->
+      val
+    PitchRight ->
+      100 - val
+
+
+xFromEnd xLeft elemWidth pitchEnd =
+  case pitchEnd of
+    PitchLeft ->
+      xLeft
+    PitchRight ->
+      100 - xLeft - elemWidth
+
+
+pitchRect rectWidth rectHeight xLeft pitchEnd =
+  rect [ class pitchClass
+        , height <| round <| scaleLength rectHeight PitchY
+        , width <| round <| scaleLength rectWidth PitchX
+        , y <| toString <| scaleCoordY <| (-) 50 <| rectHeight / 2.0
+        , x <| toString <| scaleCoordX <| xFromEnd xLeft rectWidth pitchEnd
+        ] []
